@@ -1,0 +1,218 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    background-color: #eef2f7;
+    color: #34495e;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    align-items: center;
+}
+
+h1 {
+    color: #2c3e50;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    text-align: center;
+    text-shadow: 1px 1px 2px #ccc;
+    opacity: 0;
+    transform: translateY(-20px);
+    animation: fadeInDown 1s forwards;
+}
+.highlight {
+    background-color: yellow; /* Example highlight color */
+    transition: background-color 0.5s ease-in-out;
+}
+
+.migration-record {
+    margin-bottom: 20px;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.5s ease-in-out;
+}
+
+@keyframes fadeInDown {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.input-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+#animalInput {
+    padding: 12px 15px;
+    width: 320px;
+    font-size: 18px;
+    border: 2px solid #bdc3c7;
+    border-radius: 5px;
+    margin-right: 10px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#animalInput:focus {
+    border-color: #2980b9;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+    outline: none;
+}
+
+#fetchDataBtn {
+    padding: 12px 25px;
+    font-size: 18px;
+    background-color: #2980b9;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#fetchDataBtn:hover {
+    background-color: #3498db;
+    transform: translateY(-2px);
+    box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+#fetchDataBtn:active {
+    background-color: #1c6a96;
+    transform: translateY(0);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+#migrationData {
+    padding: 25px;
+    border: 2px solid #ccc;
+    margin-top: 30px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 80%;
+    max-width: 800px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+#migrationData.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.migration-record {
+    margin-bottom: 25px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, background-color 0.3s ease, opacity 0.3s ease;
+    transform: translateY(10px);
+    opacity: 0;
+}
+
+.migration-record.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.migration-record:hover {
+    transform: scale(1.02);
+    background-color: #f0f8ff;
+}
+
+.migration-record h3 {
+    margin: 0 0 10px;
+    color: #2980b9;
+    font-size: 1.5em;
+}
+
+.migration-record p {
+    margin: 8px 0;
+    font-size: 1.1em;
+    color: #7f8c8d;
+}
+
+footer {
+    background-color: #333;
+    display: grid;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: auto;     
+}
+
+footer a {
+    color: #f1f1f1;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    body {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    .input-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #animalInput {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #fetchDataBtn {
+        width: 100%;
+    }
+
+    #migrationData {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8em;
+    }
+
+    #animalInput {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    #fetchDataBtn {
+        padding: 10px;
+        font-size: 16px;
+    }
+
+    .migration-record h3 {
+        font-size: 1.2em;
+    }
+
+    .migration-record p {
+        font-size: 1em;
+    }
+}

@@ -1,0 +1,106 @@
+let lastFetchTime = null;  // Variable to keep track of the last fetch time
+
+function displayMigrationData(occurrences) {
+    const migrationDiv = document.getElementById('migrationData');
+    migrationDiv.innerHTML = '';  // Clear previous content
+
+    if (occurrences.length === 0) {
+        migrationDiv.innerHTML = '<p>No data available to display.</p>';
+        return;
+    }
+
+    const startOccurrence = occurrences[0];
+    const endOccurrence = occurrences[occurrences.length - 1];
+
+    const startPosition = {
+        latitude: startOccurrence.decimalLatitude || 'Not available',
+        longitude: startOccurrence.decimalLongitude || 'Not available',
+        country: startOccurrence.country || 'Unknown',
+        date: startOccurrence.eventDate || 'Not available'
+    };
+
+    const endPosition = {
+        latitude: endOccurrence.decimalLatitude || 'Not available',
+        longitude: endOccurrence.decimalLongitude || 'Not available',
+        country: endOccurrence.country || 'Unknown',
+        date: endOccurrence.eventDate || 'Not available'
+    };
+
+    const startDate = new Date(startPosition.date);
+    const endDate = new Date(endPosition.date);
+
+    let timeTaken = "Not available";
+    let startDateDisplay = startPosition.date;
+    let endDateDisplay = endPosition.date;
+
+    if (isValidDate(startDate) && isValidDate(endDate)) {
+        if (endDate >= startDate) {
+            const timeDifference = endDate.getTime() - startDate.getTime();
+            const daysTaken = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+            timeTaken = daysTaken + " days";
+        } else {
+            [startDateDisplay, endDateDisplay] = [startDateDisplay, endDateDisplay];
+        }
+    } else {
+        timeTaken = "Invalid dates";
+    }
+
+    // Dynamically create a new div element for the migration record
+    const recordDiv = document.createElement('div');
+    recordDiv.className = 'migration-record';
+    recordDiv.innerHTML = `
+        <h3>${startOccurrence.scientificName || 'Unknown'} Migration</h3>
+        <p><strong>Started from:</strong> ${startPosition.country} 
+           (Latitude: ${startPosition.latitude}, Longitude: ${startPosition.longitude})</p>
+        <p><strong>Start Date:</strong> ${startDateDisplay}</p>
+        <p><strong>Reached to:</strong> ${endPosition.country} 
+           (Latitude: ${endPosition.latitude}, Longitude: ${endPosition.longitude})</p>
+        <p><strong>End Date:</strong> ${endDateDisplay}</p>
+        <p><strong>Time taken:</strong> ${timeTaken}</p>
+    `;
+
+    // Append the new recordDiv to the migrationDiv
+    migrationDiv.appendChild(recordDiv);
+
+    // Define the condition for toggling the highlight class
+    const currentTime = new Date();
+    const timeSinceLastFetch = lastFetchTime ? (currentTime - lastFetchTime) / (1000 * 60) : Infinity;
+
+    // Toggle highlight class if the data was fetched within the last 5 minutes
+    if (timeSinceLastFetch <= 5) {
+        recordDiv.classList.toggle('highlight');
+    }
+
+    // Optionally remove an existing element (for example, if you want to clear outdated data)
+    let oldElement = document.getElementById('oldRecord');
+    if (oldElement) {
+        oldElement.remove();  // Removes the old element from the DOM
+    }
+
+    // Set a timeout to show the recordDiv with a transition
+    setTimeout(() => {
+        recordDiv.classList.add('show');
+        migrationDiv.classList.add('show');
+    }, 50);
+
+    // Update last fetch time
+    lastFetchTime = currentTime;
+}
+
+function isValidDate(date) {
+    return date instanceof Date && !isNaN(date);
+}
+
+document.getElementById('fetchDataBtn').addEventListener('click', () => {
+    const animalName = document.getElementById('animalInput').value.trim();
+    if (animalName) {
+        fetchMigrationData(animalName);
+    } else {
+        alert('Please enter an animal name.');
+    }
+});
+
+// Auto-refresh page every 5 minutes (300,000 milliseconds)
+setInterval(() => {
+    window.location.reload();
+}, 300000);  // 300,000 milliseconds = 5 minutes
